@@ -2,6 +2,7 @@ import React from "react";
 import "../../Assets/scss/Login.scss";
 import { Layout } from "antd";
 import {UserOutlined,LockOutlined, FacebookOutlined, TwitterOutlined} from '@ant-design/icons'
+
 import Input from "antd/es/input/Input";
 import {Button} from "antd";
 const { Header, Footer, Sider, Content } = Layout;
@@ -15,7 +16,7 @@ const Login = (props: Props) => {
         <Sider style={{ height: window.innerHeight, backgroundImage: 'url(https://picsum.photos/500)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',   }} width={window.innerWidth/1.5}></Sider>
         <Content>
           <form className="container d-flex justify-content-center align-items-center" style={{flexDirection:'column', paddingTop: '200px'}}>
-            <h3>Login</h3>
+            <h3 className="underline">Login</h3>
             <div className="form-group">
               <p>User name</p>
              <Input name="email" size="large" prefix={<UserOutlined/>} placeholder="email" />
@@ -30,7 +31,7 @@ const Login = (props: Props) => {
             </div>
             <div className="socail mt-3 d-flex">
                 <Button shape="circle" className="font-weight-bold" style={{backgroundColor:'rgb(59,89,152',color:'black'}} icon={<FacebookOutlined/>} size="large"></Button>
-                <Button type="primary" className="ms-3 font-weight-bold" shape="circle" icon={<TwitterOutlined/>} size="large"></Button>
+                <Button type="primary" className="ms-3 font-weight-bold bg-secondary" shape="circle" icon={<TwitterOutlined/>} size="large" ></Button>
                 
             </div>
           </form>
