@@ -1,13 +1,18 @@
 import React from "react";
-import "../../Assets/scss/Login.scss";
 import { Layout } from "antd";
 import {UserOutlined,LockOutlined, FacebookOutlined, TwitterOutlined} from '@ant-design/icons'
 import Input from "antd/es/input/Input";
 import {Button} from "antd";
+import { history } from "../..";
 const { Header, Footer, Sider, Content } = Layout;
 type Props = {};
 
 const Login = (props: Props) => {
+
+  const handleLogin = () => {
+    history.push('/home')
+  }
+
   return (
     <>
       <Layout>
@@ -26,7 +31,9 @@ const Login = (props: Props) => {
             </div>
             
             <div className="form-group">
-              <Button size="large" className="mt-5" style={{backgroundColor:'rgb(102,117,223'}}>Login</Button>
+              <Button size="large" className="mt-5" style={{backgroundColor:'rgb(102,117,223'}} onClick={() => {
+                handleLogin()
+              }}>Login</Button>
             </div>
             <div className="socail mt-3 d-flex">
                 <Button shape="circle" className="font-weight-bold" style={{backgroundColor:'rgb(59,89,152',color:'black'}} icon={<FacebookOutlined/>} size="large"></Button>
