@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Layout } from "antd";
 import {
   UserOutlined,
@@ -7,14 +6,18 @@ import {
   FacebookOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
-import { useFormik } from "formik";
 import Input from "antd/es/input/Input";
 import { Button } from "antd";
+// import { history } from "../..";
+import { useFormik } from "formik";
 import * as yup from "yup";
-const { Header, Footer, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 type Props = {};
 
 const Login = (props: Props) => {
+  // const handleLogin = () => {
+  //   history.push("/home");
+  // };
   const form = useFormik({
     initialValues: {
       email: "",
@@ -23,14 +26,15 @@ const Login = (props: Props) => {
     validationSchema: yup.object().shape({
       email: yup
         .string()
-        .required("Email can not be blank!")
+        .required("Email cannot be blank!")
         .email("Email is invalid!"),
-      password: yup.string().required("Password can not be blank!"),
+      password: yup.string().required("Password cannot be blank!"),
     }),
     onSubmit: (values) => {
       console.log(values);
     },
   });
+
   return (
     <>
       <Layout>
@@ -49,9 +53,9 @@ const Login = (props: Props) => {
             className="container d-flex justify-content-center align-items-center"
             style={{ flexDirection: "column", paddingTop: "200px" }}
           >
-            <h3 className="underline">Login</h3>
+            <h3>Login</h3>
             <div className="form-group">
-              <p>User email</p>
+              <p>User name</p>
               <Input
                 name="email"
                 size="large"
@@ -73,24 +77,26 @@ const Login = (props: Props) => {
                 placeholder="password"
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
-                type="password"
               />
-               {form.errors.password && (
-              <p className="text-danger">{form.errors.password}</p>
-            )}
+              {form.errors.password && (
+                <p className="text-danger">{form.errors.password}</p>
+              )}
             </div>
-           
+
             <div className="form-group">
               <Button
                 htmlType="submit"
                 size="large"
                 className="mt-5"
                 style={{ backgroundColor: "rgb(102,117,223" }}
+                // onClick={() => {
+                //   handleLogin();
+                // }}
               >
                 Login
               </Button>
             </div>
-            <div className="social mt-3 d-flex">
+            <div className="socail mt-3 d-flex">
               <Button
                 shape="circle"
                 className="font-weight-bold"
@@ -100,7 +106,7 @@ const Login = (props: Props) => {
               ></Button>
               <Button
                 type="primary"
-                className="ms-3 font-weight-bold bg-secondary"
+                className="ms-3 font-weight-bold"
                 shape="circle"
                 icon={<TwitterOutlined />}
                 size="large"

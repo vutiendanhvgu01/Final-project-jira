@@ -6,6 +6,7 @@ import { UserLoginTemplate } from './HomeTemplate/UserLoginTemplate';
 import Login from './Pages/Login/Login';
 import HomeTemplate from './HomeTemplate/HomeTemplate';
 import 'antd/dist/antd'
+import Detail from './Pages/Detail/Detail';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -14,10 +15,12 @@ root.render(
  <HistoryRouter history={history}>
   <Routes>
     <Route index element={<Login/>}></Route>
-    <Route path="" element={<HomeTemplate/>}>
-      
-    
+    <Route path="home" element={<HomeTemplate/>}>
+      <Route path="edit" >
+        <Route path=":id" element={<Detail/>}></Route>
       </Route>
+    
+    </Route>
     
   </Routes>
  </HistoryRouter>
