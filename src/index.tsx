@@ -7,11 +7,14 @@ import Login from './Pages/Login/Login';
 import HomeTemplate from './HomeTemplate/HomeTemplate';
 import 'antd/dist/antd'
 import Detail from './Pages/Detail/Detail';
+import { store } from './redux/configStore';
+import { Provider } from 'react-redux';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 export const history:any = createBrowserHistory()
 root.render(
+  <Provider store={store}>
  <HistoryRouter history={history}>
   <Routes>
     <Route index element={<Login/>}></Route>
@@ -24,6 +27,7 @@ root.render(
     
   </Routes>
  </HistoryRouter>
+ </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

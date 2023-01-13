@@ -11,27 +11,47 @@ import { Button } from "antd";
 // import { history } from "../..";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { loginAsyncApi } from "../../redux/reducers/UserReducer";
+import { useDispatch } from "react-redux";
+import { DispatchType } from "../../redux/configStore";
+import { useState,useEffect } from "react";
 const { Sider, Content } = Layout;
 type Props = {};
+export interface UserLoginModel {
+  email:string,
+  passWord:string,
+}
 
 const Login = (props: Props) => {
   // const handleLogin = () => {
   //   history.push("/home");
   // };
-  const form = useFormik({
+  const [{width,height},setSize] =useState({width:window.innerWidth,height:window.innerHeight})
+  useEffect(()=>{
+    window.onresize=()=>{
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+  },[])
+  const dispatch:DispatchType = useDispatch();
+  const form = useFormik<UserLoginModel>({
     initialValues: {
       email: "",
-      password: "",
+      passWord: "",
     },
     validationSchema: yup.object().shape({
       email: yup
         .string()
         .required("Email cannot be blank!")
         .email("Email is invalid!"),
-      password: yup.string().required("Password cannot be blank!"),
+      passWord: yup.string().required("Password cannot be blank!"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values:UserLoginModel) => {
       console.log(values);
+      const action = loginAsyncApi(values)
+      dispatch(action)
     },
   });
 
@@ -40,12 +60,12 @@ const Login = (props: Props) => {
       <Layout>
         <Sider
           style={{
-            height: window.innerHeight,
-            backgroundImage: "url(https://picsum.photos/2000)",
+            height: height,
+            backgroundImage: `url(https://picsum.photos/${Math.round(width/2)}/${height/2})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}
-          width={window.innerWidth / 2}
+          width={width/2}
         ></Sider>
         <Content>
           <form
@@ -71,15 +91,15 @@ const Login = (props: Props) => {
             <div className="form-group">
               <p>Password</p>
               <Input
-                name="password"
+                name="passWord"
                 size="large"
                 prefix={<LockOutlined />}
                 placeholder="password"
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
               />
-              {form.errors.password && (
-                <p className="text-danger">{form.errors.password}</p>
+              {form.errors.passWord && (
+                <p className="text-danger">{form.errors.passWord}</p>
               )}
             </div>
 
