@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 #components-layout-demo-custom-trigger .trigger {
   padding: 0 24px;
   font-size: 18px;
