@@ -1,109 +1,120 @@
-import React,{ useState }  from 'react'
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import React, { useState } from 'react'
+import type { MenuProps, MenuTheme } from 'antd';
+import { Layout, Menu, theme, Switch } from 'antd';
 import { history } from '..';
 import { Outlet } from 'react-router-dom';
+import { AppstoreOutlined, MailOutlined, SettingOutlined,UserOutlined,SearchOutlined,ProjectOutlined,PlusSquareOutlined } from '@ant-design/icons';
 const { Header, Sider, Content } = Layout;
 
 
+
+type MenuItem = Required<MenuProps>['items'][number];
+function getItem(
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem('Project', 'project', <ProjectOutlined />, [
+    getItem('View all projects', 'allProjects'),
+    getItem('Create project', 'createProject'),
+  ]),
+
+  getItem('User', 'sub2', <UserOutlined />, [
+    getItem('View all users', 'allUser', null),
+    getItem('My account', 'profile', null),
+
+  ]),
+
+  getItem('Search', 'sub4', <SearchOutlined />),
+  getItem('Create task', 'createTask', <PlusSquareOutlined />),
+
+];
+
 type Props = {}
 
-const HomeTemplate:React.FC = (props: Props) => {
+const HomeTemplate: React.FC = (props: Props) => {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+
+  const [theme, setTheme] = useState<MenuTheme>('dark');
+  const [current, setCurrent] = useState('1');
+
+  const changeTheme = (value: boolean) => {
+    setTheme(value ? 'dark' : 'light');
+  };
+
+  const onClick: MenuProps['onClick'] = (e: any) => {
+    console.log('click ', e.key);
+    let url:string =e.key;
+
+    switch (url) {
+      case 'profile': {
+        console.log('profile')
+        history.push(`/home/profile`)
+        break;
+      }
+      case 'createTask': {
+        console.log('createTask')
+        history.push(`/home/createTask`)
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+
+    setCurrent(e.key);
+  };
   return (
     <>
       <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'User',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'Search',
-              onClick: () => {
-               
-              }
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
+        <Sider trigger={null} collapsible collapsed={collapsed} style={{ height: '100vh' }} theme={theme}>
+          <div className="logo" />
+          <div className="change-theme" style={{ marginTop: '15px' }}>
+            <Switch
+              checked={theme === 'dark'}
+              onChange={changeTheme}
+              checkedChildren="Dark"
+              unCheckedChildren="Light"
+            />
 
-            },
-            
-          ]}
-          
-        />
-      </Sider>
-      <Layout className="site-layout">
-       
-        <Sider theme='light'>
-        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          })}
-          <div className="sub-nav-user">
-            <div className="user-wrap d-flex">
-              <div className="user-image-nav">
-                <img src='...' alt='...'/>
-              </div>
-              <div className="user-info">
-                <h4>CyberLearn</h4>
-              </div>
-            </div>
-            <div className="sub-nav-project">
-            <ul className='sub-nav-list-project'>
-<li>Cyber Board</li>
-<li>Project management</li>
-
-<li>Create project</li>
-
-            </ul>
-            <hr/>
-            </div>
-            <div className="sub-nav-setting">
-            <ul className='sub-nav-list-setting'>
-              <li>Releases</li>
-              <li>Issues and filters</li>
-              <li>Pages</li>
-              <li>Reports</li>
-              <li>Components</li>
-
-            </ul>
-            </div>
           </div>
+
+          <Menu
+            theme={theme}
+            onClick={onClick}
+            style={{ width: "100%" }}
+            defaultOpenKeys={['sub1']}
+            selectedKeys={[current]}
+            mode="inline"
+            items={items}
+          />
         </Sider>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-          }}
-        >
-          hello
-          <Outlet/>
-        </Content>
+        <Layout className="site-layout">
+          <Content
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 280,
+
+            }}
+          >
+            <Outlet />
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
     </>
   )
 }
