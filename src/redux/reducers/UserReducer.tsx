@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserLoginModel } from "../../Pages/Login/Login";
+import { history } from "../../index";
 import axios from "axios";
 import {
   ACCESS_TOKEN,
@@ -56,6 +57,6 @@ export const loginAsyncApi = (userLogin: UserLoginModel) => {
     //Lưu localstorage
     saveStoreJson(USER_LOGIN, result.data.content);
     saveStore(ACCESS_TOKEN, result.data.content.accessToken);
-    
+    history.push("/home")
   };
 };

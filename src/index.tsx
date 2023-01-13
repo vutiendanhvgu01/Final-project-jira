@@ -6,9 +6,14 @@ import { UserLoginTemplate } from './HomeTemplate/UserLoginTemplate';
 import Login from './Pages/Login/Login';
 import HomeTemplate from './HomeTemplate/HomeTemplate';
 import 'antd/dist/antd'
-import Detail from './Pages/Detail/Detail';
+
+
 import { store } from './redux/configStore';
 import { Provider } from 'react-redux';
+
+import CreateTask from './Pages/Task/CreateTask';
+
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -19,18 +24,11 @@ root.render(
   <Routes>
     <Route index element={<Login/>}></Route>
     <Route path="home" element={<HomeTemplate/>}>
-      <Route path="edit" >
-        <Route path=":id" element={<Detail/>}></Route>
-      </Route>
-    
+   
     </Route>
-    
+    <Route path='CreateTask' element={<CreateTask/>}></Route>
   </Routes>
  </HistoryRouter>
  </Provider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 
