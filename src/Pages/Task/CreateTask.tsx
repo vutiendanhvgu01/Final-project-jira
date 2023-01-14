@@ -2,7 +2,10 @@ import { Input, Select } from 'antd'
 import React, { useRef } from 'react'
 import type { SelectProps } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/configStore';
+import { useFormik } from "formik";
+import * as yup from "yup";
 const handleChange = (value: string) => {
     console.log(`selected ${value}`);
 };
@@ -12,14 +15,34 @@ type Props = {}
 
 const CreateTask: React.FC = (props: Props) => {
 
-
+    const { allProjects } = useSelector((state: RootState) => {
+        return state.ProjectReducer
+    })
     const editorRef = useRef(null);
     const log = () => {
         if (editorRef.current) {
-            const valueDes:string = (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "");
+            const valueDes: string = (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "");
             return valueDes;
         }
-        }
+    }
+
+  interface formTypeTask {
+
+    }
+
+    const form = useFormik<formTypeTask>({
+        initialValues: {
+            email: "",
+            passWord: "",
+        },
+        validationSchema: yup.object().shape({
+           
+        }),
+        onSubmit: (values: formTypeTask) => {
+            
+        },
+    }
+    )
 
     return (
         <>
@@ -133,7 +156,7 @@ const CreateTask: React.FC = (props: Props) => {
                 </div>
             </div>
             <Editor
-             onInit={(evt, editor) => (editorRef.current = editor)}
+                onInit={(evt, editor) => (editorRef.current = editor)}
                 init={{
                     height: 300,
                     menubar: true,
@@ -151,7 +174,7 @@ const CreateTask: React.FC = (props: Props) => {
                         "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}
 
-           
+
 
             />
             <div className="form-group">

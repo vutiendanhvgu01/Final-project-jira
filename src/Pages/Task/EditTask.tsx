@@ -16,10 +16,10 @@ const EditTask: React.FC = (props: Props) => {
     const editorRef = useRef(null);
     const log = () => {
         if (editorRef.current) {
-            const valueDes:string = (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "");
+            const valueDes: string = (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "");
             return valueDes;
         }
-        }
+    }
 
     return (
         <>
@@ -133,7 +133,7 @@ const EditTask: React.FC = (props: Props) => {
                 </div>
             </div>
             <Editor
-             onInit={(evt, editor) => (editorRef.current = editor)}
+                onInit={(evt, editor) => (editorRef.current = editor)}
                 init={{
                     height: 300,
                     menubar: true,
@@ -151,7 +151,7 @@ const EditTask: React.FC = (props: Props) => {
                         "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}
 
-           
+
 
             />
             <div className="form-group">

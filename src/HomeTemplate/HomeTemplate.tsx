@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { MenuProps, MenuTheme } from 'antd';
 import { Layout, Menu, theme, Switch } from 'antd';
 import { history } from '..';
 import { Outlet } from 'react-router-dom';
-import { AppstoreOutlined, MailOutlined, SettingOutlined,UserOutlined,SearchOutlined,ProjectOutlined,PlusSquareOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined, SearchOutlined, ProjectOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import { getAllProject } from '../redux/reducers/ProjectReducer';
+import { DispatchType, RootState } from '../redux/configStore';
+import { useDispatch, useSelector } from 'react-redux';
 const { Header, Sider, Content } = Layout;
 
 
@@ -46,18 +49,20 @@ type Props = {}
 
 const HomeTemplate: React.FC = (props: Props) => {
   const [collapsed, setCollapsed] = useState(false);
-
   const [theme, setTheme] = useState<MenuTheme>('dark');
   const [current, setCurrent] = useState('1');
-
   const changeTheme = (value: boolean) => {
     setTheme(value ? 'dark' : 'light');
   };
 
+  const dispatch: DispatchType = useDispatch()
+  useEffect(() => {
+    const action = getAllProject()
+    dispatch(action)
+  }, [])
   const onClick: MenuProps['onClick'] = (e: any) => {
     console.log('click ', e.key);
-    let url:string =e.key;
-
+    let url: string = e.key;
     switch (url) {
       case 'profile': {
         console.log('profile')
@@ -69,16 +74,10 @@ const HomeTemplate: React.FC = (props: Props) => {
         history.push(`/home/createTask`)
         break;
       }
-      case 'createProject': {
-        console.log('createProject')
-        history.push(`/home/createProject`)
-        break;
-      }  
       default: {
         break;
       }
     }
-
     setCurrent(e.key);
   };
   return (
@@ -93,9 +92,7 @@ const HomeTemplate: React.FC = (props: Props) => {
               checkedChildren="Dark"
               unCheckedChildren="Light"
             />
-
           </div>
-
           <Menu
             theme={theme}
             onClick={onClick}
@@ -112,7 +109,6 @@ const HomeTemplate: React.FC = (props: Props) => {
               margin: '24px 16px',
               padding: 24,
               minHeight: 280,
-
             }}
           >
             <Outlet />
