@@ -1,8 +1,29 @@
 import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import {useFormik} from 'formik'
+import { useSelector } from "react-redux";
+import { DispatchType, RootState } from "../../redux/configStore";
+import { getProjectCategoryApi } from "../../redux/reducers/ProjectReducer";
+
 type Props = {};
 
 const CreateProject = (props: Props) => {
+  const {categoryProject} = useSelector((state:RootState) =>state.ProjectReducer)
+  const dispatch:DispatchType = useDispatch()
+  useEffect(()=>{
+    const action = getProjectCategoryApi()
+    dispatch(action)
+  },[])
+  const form = useFormik({
+    initialValues:{},
+    onSubmit:(values)=>{
+
+    }
+  })
+
+
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -43,9 +64,9 @@ const CreateProject = (props: Props) => {
         </div>
         <div className="form-group m-3">
           <select name="categoryId" className="form-control">
-            <option value="">Software</option>
-            <option value="">web</option>
-            <option value="">App</option>
+           {categoryProject.map((item,index)=>{
+            return <option value={item.id} key={index}>{item.projectCategoryName}</option>
+           })}
           </select>
         </div>
         <button className="btn btn-outline-primary" type="submit">
