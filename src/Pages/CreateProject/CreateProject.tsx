@@ -2,47 +2,68 @@ import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import {useFormik} from 'formik'
+import { useFormik} from "formik";
 import { useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { getProjectCategoryApi } from "../../redux/reducers/ProjectReducer";
+import { createProjectAPI, getProjectCategoryApi } from "../../redux/reducers/ProjectReducer";
 
-type Props = {};
+type Props = {
+  
+};
 
 const CreateProject = (props: Props) => {
-  const {categoryProject} = useSelector((state:RootState) =>state.ProjectReducer)
-  const dispatch:DispatchType = useDispatch()
-  useEffect(()=>{
-    const action = getProjectCategoryApi()
-    dispatch(action)
-  },[])
-  const form = useFormik({
-    initialValues:{},
-    onSubmit:(values)=>{
-
-    }
-  })
-
-
+  
+  const { categoryProject } = useSelector(
+    (state: RootState) => state.ProjectReducer
+  );
+  const dispatch: DispatchType = useDispatch();
+  useEffect(() => {
+    const action = getProjectCategoryApi();
+    dispatch(action);
+  }, []);
+  
+  
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
+      
     }
+   
+    
   };
+  const form = useFormik({
+    enableReinitialize:true,
+    initialValues: {
+      projectName: "",
+      description: editorRef.current?.getContent(),
+      categoryId: categoryProject[0]?.id,
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      const action = createProjectAPI(values)
+      dispatch(action)
+    },
+  });
   return (
     <div className="form-control m-3">
       <h3>Create Project</h3>
-      <form className="container">
+      <form className="container" onSubmit={form.handleSubmit}>
         <div className="form-group m-3">
           <p>Name</p>
-          <input type="text" className="form-control" name="projectName" />
+          <input
+            type="text"
+            className="form-control"
+            name="projectName"
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
+          />
         </div>
         <div className="form-group m-3">
           <p>Description</p>
           <Editor
+             
             onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue=""
             init={{
               height: 300,
               menubar: false,
@@ -60,13 +81,24 @@ const CreateProject = (props: Props) => {
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
           />
-          <button onClick={log} className="btn btn-outline-primary m-3" >Log editor content</button>
+          <button onClick={log}  onChange={form.handleChange} className="btn btn-outline-primary m-3" >
+            Log editor content
+          </button>
         </div>
         <div className="form-group m-3">
-          <select name="categoryId" className="form-control">
-           {categoryProject.map((item,index)=>{
-            return <option value={item.id} key={index}>{item.projectCategoryName}</option>
-           })}
+          <select
+            name="categoryId"
+            className="form-control"
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
+          >
+            {categoryProject.map((item, index) => {
+              return (
+                <option value={item.id} key={index}>
+                  {item.projectCategoryName}
+                </option>
+              );
+            })}
           </select>
         </div>
         <button className="btn btn-outline-primary" type="submit">
