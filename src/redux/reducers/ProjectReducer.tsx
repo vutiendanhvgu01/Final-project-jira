@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { TOKEN_CYBERSOFT } from '../../util/config';
+import { TOKEN_CYBERSOFT,ACCESS_TOKEN,getStore } from '../../util/config';
 import { DispatchType } from '../configStore';
 
 
@@ -59,11 +59,12 @@ export const getProjectCategoryApi = ()=>{
 export const createProjectAPI = (createProject:Project)=>{
     return async (dispatch:DispatchType)=>{
         const result = await axios({
-            url:'https://jiranew.cybersoft.edu.vn/api/Project/createProject',
+            url:'https://jiranew.cybersoft.edu.vn/api/Project/createProjectAuthorize',
             method:'post',
             data: createProject,
             headers:{
                 TokenCybersoft: TOKEN_CYBERSOFT,
+                Authorization: `Bearer ${getStore(ACCESS_TOKEN)}`
             }
         })
         console.log(result.data.content);
