@@ -69,7 +69,11 @@ const HomeTemplate: React.FC = (props: Props) => {
         history.push(`/home/createTask`)
         break;
       }
-
+      case 'createProject': {
+        console.log('createProject')
+        history.push(`/home/createProject`)
+        break;
+      }  
       default: {
         break;
       }
