@@ -36,7 +36,7 @@ const CreateProject = (props: Props) => {
     enableReinitialize:true,
     initialValues: {
       projectName: "",
-      description: editorRef.current?.getContent(),
+      description: (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, ""),
       categoryId: categoryProject[0]?.id,
     },
     onSubmit: (values) => {
