@@ -98,7 +98,7 @@ export const getProjectCategoryApi = ()=>{
     }
 }
 export const createProjectAPI = (createProject:Project)=>{
-    return async (dispatch:DispatchType)=>{
+    return async ()=>{
         const result = await axios({
             url:'https://jiranew.cybersoft.edu.vn/api/Project/createProjectAuthorize',
             method:'post',

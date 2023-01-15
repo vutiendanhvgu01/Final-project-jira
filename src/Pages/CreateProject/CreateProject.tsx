@@ -27,20 +27,22 @@ const CreateProject = (props: Props) => {
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
-      
+      let valueDes:string = (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "")
+      form.setFieldValue("description",valueDes)
     }
    
-    
+  
   };
   const form = useFormik({
     enableReinitialize:true,
     initialValues: {
       projectName: "",
-      description: (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, ""),
+      description: editorRef.current?.getContent(),
       categoryId: categoryProject[0]?.id,
     },
     onSubmit: (values) => {
       console.log(values);
+      
       const action = createProjectAPI(values)
       dispatch(action)
     },
@@ -62,7 +64,7 @@ const CreateProject = (props: Props) => {
         <div className="form-group m-3">
           <p>Description</p>
           <Editor
-             
+             onChange={form.handleChange}
             onInit={(evt, editor) => (editorRef.current = editor)}
             init={{
               height: 300,
@@ -81,9 +83,7 @@ const CreateProject = (props: Props) => {
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
           />
-          <button onClick={log}  onChange={form.handleChange} className="btn btn-outline-primary m-3" >
-            Log editor content
-          </button>
+        
         </div>
         <div className="form-group m-3">
           <select

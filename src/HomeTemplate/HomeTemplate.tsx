@@ -32,6 +32,7 @@ const items: MenuItem[] = [
   getItem('Project', 'project', <ProjectOutlined />, [
     getItem('View all projects', 'allProjects'),
     getItem('Create project', 'createProject'),
+    getItem('Project Management', 'projectManagement')
   ]),
 
   getItem('User', 'sub2', <UserOutlined />, [
@@ -72,6 +73,16 @@ const HomeTemplate: React.FC = (props: Props) => {
       case 'createTask': {
         console.log('createTask')
         history.push(`/home/createTask`)
+        break;
+      }
+      case 'createProject': {
+        console.log('createProject')
+        history.push(`/home/createProject`)
+        break;
+      }
+      case 'projectManagement': {
+        console.log('projectManagement')
+        history.push(`/home/projectManagement`)
         break;
       }
       default: {

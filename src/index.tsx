@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import CreateTask from './Pages/Task/CreateTask';
 import Profile from './Pages/User/Profile';
 import CreateProject from './Pages/CreateProject/CreateProject';
+import ProjectManagement from './Pages/ProjectManagement/ProjectManagement';
 
 
 const root = ReactDOM.createRoot(
@@ -28,6 +29,7 @@ root.render(
         <Route path="home" element={<HomeTemplate />}>
           <Route path='profile' element={<Profile />}></Route>
           <Route path='createProject' element={<CreateProject />}></Route>
+          <Route path='projectManagement' element={<ProjectManagement/>}></Route>
         <Route path='createTask' element={<CreateTask />}></Route>
         
         </Route>
