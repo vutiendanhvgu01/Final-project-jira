@@ -66,6 +66,7 @@ const Login = (props: Props) => {
             backgroundSize: "cover",
           }}
           width={width/2}
+          
         ></Sider>
         <Content>
           <form

@@ -7,6 +7,8 @@ import { AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined, SearchOu
 import { getAllProject } from '../redux/reducers/ProjectReducer';
 import { DispatchType, RootState } from '../redux/configStore';
 import { useDispatch, useSelector } from 'react-redux';
+import Sidebar from './Sidebar';
+
 const { Header, Sider, Content } = Layout;
 
 
@@ -50,6 +52,7 @@ type Props = {}
 
 const HomeTemplate: React.FC = (props: Props) => {
   const [collapsed, setCollapsed] = useState(false);
+  
   const [theme, setTheme] = useState<MenuTheme>('dark');
   const [current, setCurrent] = useState('1');
   const changeTheme = (value: boolean) => {
@@ -107,7 +110,8 @@ const HomeTemplate: React.FC = (props: Props) => {
   return (
     <>
       <Layout style={{ height: '100vh' }} >
-        <Sider trigger={null} collapsible collapsed={collapsed} style={{ height: '100vh' }} theme={theme}>
+      <Sidebar/>
+        <Sider trigger={null} collapsible  style={{ height: '100vh' }} theme={theme}>
           <div className={`profile-info`} id="home-info">
             <div className={classNameFunction(theme)}>
               <img src={userLogin.avatar} alt="..." />
