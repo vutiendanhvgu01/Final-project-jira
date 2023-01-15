@@ -55,12 +55,25 @@ const HomeTemplate: React.FC = (props: Props) => {
   const changeTheme = (value: boolean) => {
     setTheme(value ? 'dark' : 'light');
   };
+  const {userLogin} = useSelector((state:RootState) => {return state.UserReducer}
+  )
+
 
   const dispatch: DispatchType = useDispatch()
   useEffect(() => {
     const action = getAllProject()
     dispatch(action)
+    console.log(userLogin)
   }, [])
+
+
+
+  const classNameFunction = (theme) => {
+    if(theme === 'dark') {
+      return  'profile-ava text-white text-align-center mt-3 ms-3'
+    }
+    return 'profile-ava text-dark text-align-center mt-3 ms-3'
+  }
   const onClick: MenuProps['onClick'] = (e: any) => {
     console.log('click ', e.key);
     let url: string = e.key;
@@ -93,10 +106,21 @@ const HomeTemplate: React.FC = (props: Props) => {
   };
   return (
     <>
-      <Layout>
+      <Layout style={{ height: '100vh' }} >
         <Sider trigger={null} collapsible collapsed={collapsed} style={{ height: '100vh' }} theme={theme}>
-          <div className="logo" />
-          <div className="change-theme" style={{ marginTop: '15px' }}>
+          <div className={`profile-info`} id="home-info">
+            <div className={classNameFunction(theme)}>
+              <img src={userLogin.avatar} alt="..." />
+              <h4>{userLogin.name}</h4>
+              <p>{userLogin.email}</p>
+
+
+            </div>
+ 
+         
+       
+          </div>
+          <div className="change-theme" style={{ marginTop: '15px',marginLeft:'20px' }}>
             <Switch
               checked={theme === 'dark'}
               onChange={changeTheme}
@@ -118,8 +142,12 @@ const HomeTemplate: React.FC = (props: Props) => {
           <Content
             style={{
               margin: '24px 16px',
-              padding: 24,
+              paddingTop: 10,
               minHeight: 280,
+              paddingLeft: 40,
+              paddingRight: 40,
+              paddingBottom: 150
+
             }}
           >
             <Outlet />

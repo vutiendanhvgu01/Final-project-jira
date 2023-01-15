@@ -2,17 +2,17 @@ import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { useFormik} from "formik";
+import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { createProjectAPI, getProjectCategoryApi } from "../../redux/reducers/ProjectReducer";
 
 type Props = {
-  
+
 };
 
 const CreateProject = (props: Props) => {
-  
+
   const { categoryProject } = useSelector(
     (state: RootState) => state.ProjectReducer
   );
@@ -21,20 +21,20 @@ const CreateProject = (props: Props) => {
     const action = getProjectCategoryApi();
     dispatch(action);
   }, []);
-  
-  
+
+
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
-      let valueDes:string = (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "")
-      form.setFieldValue("description",valueDes)
+      let valueDes: string = (((editorRef.current.getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "")
+      form.setFieldValue("description", valueDes)
     }
-   
-  
+
+
   };
   const form = useFormik({
-    enableReinitialize:true,
+    enableReinitialize: true,
     initialValues: {
       projectName: "",
       description: editorRef.current?.getContent(),
@@ -42,7 +42,7 @@ const CreateProject = (props: Props) => {
     },
     onSubmit: (values) => {
       console.log(values);
-      
+
       const action = createProjectAPI(values)
       dispatch(action)
     },
@@ -64,7 +64,7 @@ const CreateProject = (props: Props) => {
         <div className="form-group m-3">
           <p>Description</p>
           <Editor
-             onChange={form.handleChange}
+            onChange={form.handleChange}
             onInit={(evt, editor) => (editorRef.current = editor)}
             init={{
               height: 300,
@@ -83,7 +83,7 @@ const CreateProject = (props: Props) => {
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
           />
-        
+
         </div>
         <div className="form-group m-3">
           <select

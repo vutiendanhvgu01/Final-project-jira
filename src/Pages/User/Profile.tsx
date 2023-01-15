@@ -1,8 +1,14 @@
 import React from 'react'
-import { Input } from 'antd';
+import { Button, Input } from 'antd';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/configStore';
 type Props = {}
 
 const Profile = (props: Props) => {
+
+   const  {userLogin} = useSelector((state:RootState) => {
+    return state.UserReducer
+   }) 
   return (
 
     <>
@@ -16,22 +22,21 @@ const Profile = (props: Props) => {
             </div>
             <div className="col-6">
                 <div className="profile-content">
-                    <h3>Bao Toan</h3>
                     <div className="form-group">
                     <p>Id <span className='required-icon'>*</span></p>
-                    <Input placeholder="input with clear icon" allowClear  />
+                    <Input value={userLogin.id} disabled={true}  />
                     </div>
                     <div className="form-group">
                     <p>Email <span className='required-icon'>*</span></p>
-                    <Input placeholder="input with clear icon" allowClear />
+                    <Input defaultValue={userLogin.email} readOnly/>
                     </div>
                     <div className="form-group">
                     <p>Name <span className='required-icon'>*</span></p>
-                    <Input placeholder="input with clear icon" allowClear  />
+                    <Input defaultValue={userLogin.name} />
                     </div>
                     <div className="form-group">
                     <p>Phone number <span className='required-icon'>*</span></p>
-                    <Input placeholder="input with clear icon" allowClear  />
+                    <Input defaultValue={userLogin.phoneNumber} />
                     </div>
                     <div className="form-group">
                     <p>Password <span className='required-icon'>*</span></p>
@@ -43,13 +48,10 @@ const Profile = (props: Props) => {
                     </div>
 
                 </div>
-                <div className="group-button d-flex">
-                    <button className="btn">
-                        Update
-                    </button>
-                    <button className="btn">
-                        Cancel
-                    </button>
+                <div className="group-button d-flex mt-3">
+                <Button  danger={true} htmlType='button' size='large' style={{marginRight:'15px'}}>Cancel</Button>
+
+                <Button  type="primary" htmlType='button' size='large'>Update</Button>
                 </div>
             </div>
         </div>

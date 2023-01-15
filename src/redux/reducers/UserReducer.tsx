@@ -16,8 +16,12 @@ import {
 
 import { DispatchType } from "../configStore";
 export interface UserLoginResult {
-  email: string;
-  passWord: string;
+  id:          number;
+  email:       string;
+  avatar:      string;
+  phoneNumber: string;
+  name:        string;
+  accessToken: string;
 }
 export interface UserState {
   userLogin: UserLoginResult;
