@@ -2,6 +2,13 @@ import { Input, Select } from 'antd'
 import React, { useRef } from 'react'
 import type { SelectProps } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/configStore';
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { projectAll } from '../../redux/reducers/ProjectReducer';
+
+
 
 const handleChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -11,8 +18,9 @@ type Props = {}
 
 
 const EditTask: React.FC = (props: Props) => {
-
-
+    const { allProjects } = useSelector((state: RootState) => {
+        return state.ProjectReducer
+    })
     const editorRef = useRef(null);
     const log = () => {
         if (editorRef.current) {
@@ -21,6 +29,28 @@ const EditTask: React.FC = (props: Props) => {
         }
     }
 
+
+
+    console.log(allProjects)
+  
+  interface formTypeTask {
+
+    }
+ 
+    const form = useFormik<formTypeTask>({
+        initialValues: {
+            email: "",
+            passWord: "",
+        },
+        validationSchema: yup.object().shape({
+           
+        }),
+        onSubmit: (values: formTypeTask) => {
+            
+        },
+    }
+    )
+
     return (
         <>
             <h1>Edit Task</h1>
@@ -28,23 +58,15 @@ const EditTask: React.FC = (props: Props) => {
                 <p>Project</p>
                 <Select
                     placeholder='Project name'
-
                     style={{ width: '100%' }}
                     onChange={handleChange}
-                    options={[
-                        {
-                            value: 'jack',
-                            label: 'Jack',
-                        },
-                        {
-                            value: 'lucy',
-                            label: 'Lucy',
-                        },
-                        {
-                            value: 'Yiminghe',
-                            label: 'yiminghe',
-                        },
-                    ]}
+                    options={allProjects.map((item:projectAll) => {
+                        return {
+                            value:item.id,
+                            label:item.projectName
+                        }
+                    })
+                }
                 />
             </div>
             <div className="form-group">

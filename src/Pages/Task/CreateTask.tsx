@@ -6,6 +6,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/configStore';
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { projectAll } from '../../redux/reducers/ProjectReducer';
+import { Status, TypeTask } from './TypeTask';
+
+
+
 const handleChange = (value: string) => {
     console.log(`selected ${value}`);
 };
@@ -14,8 +19,7 @@ type Props = {}
 
 
 const CreateTask: React.FC = (props: Props) => {
-
-    const { allProjects } = useSelector((state: RootState) => {
+    const { allProjects,statusTask,taskType,Priority } = useSelector((state: RootState) => {
         return state.ProjectReducer
     })
     const editorRef = useRef(null);
@@ -26,10 +30,14 @@ const CreateTask: React.FC = (props: Props) => {
         }
     }
 
+
+
+    console.log(allProjects)
+  
   interface formTypeTask {
 
     }
-
+ 
     const form = useFormik<formTypeTask>({
         initialValues: {
             email: "",
@@ -51,23 +59,15 @@ const CreateTask: React.FC = (props: Props) => {
                 <p>Project</p>
                 <Select
                     placeholder='Project name'
-
                     style={{ width: '100%' }}
                     onChange={handleChange}
-                    options={[
-                        {
-                            value: 'jack',
-                            label: 'Jack',
-                        },
-                        {
-                            value: 'lucy',
-                            label: 'Lucy',
-                        },
-                        {
-                            value: 'Yiminghe',
-                            label: 'yiminghe',
-                        },
-                    ]}
+                    options={allProjects.map((item:projectAll) => {
+                        return {
+                            value:item.id,
+                            label:item.projectName
+                        }
+                    })
+                }
                 />
             </div>
             <div className="form-group">
@@ -80,24 +80,12 @@ const CreateTask: React.FC = (props: Props) => {
                     defaultValue="backlog"
                     style={{ width: '100%' }}
                     onChange={handleChange}
-                    options={[
-                        {
-                            value: 'backlog',
-                            label: 'BACKLOG',
-                        },
-                        {
-                            value: 'selectedfordevelopment',
-                            label: 'SELECTED FOR DEVELOPMENT',
-                        },
-                        {
-                            value: 'inprogess',
-                            label: 'IN PROGESS',
-                        },
-                        {
-                            value: 'done',
-                            label: 'DONE',
-                        },
-                    ]}
+                    options={statusTask?.map((status:Status)=> {
+                        return {
+                            value:status.statusId,
+                            label:status.statusName
+                        }
+                    })}
                 />
             </div>
             <div className="row">
@@ -106,27 +94,15 @@ const CreateTask: React.FC = (props: Props) => {
                         <div className="form-group">
                             <p>Priority</p>
                             <Select
-                                defaultValue="high"
+                                defaultValue="High"
                                 style={{ width: '100%' }}
                                 onChange={handleChange}
-                                options={[
-                                    {
-                                        value: 'high',
-                                        label: 'High',
-                                    },
-                                    {
-                                        value: 'medium',
-                                        label: 'Medium',
-                                    },
-                                    {
-                                        value: 'low',
-                                        label: 'Low',
-                                    },
-                                    {
-                                        value: 'lowest',
-                                        label: 'lowest',
-                                    },
-                                ]}
+                                options={Priority?.map((item) => {
+                                    return {
+                                        value:item.priorityId,
+                                        label: item.priority
+                                    }
+                                })}
                             />
                         </div>
                     </div>
@@ -139,17 +115,12 @@ const CreateTask: React.FC = (props: Props) => {
                                 defaultValue="bug"
                                 style={{ width: '100%' }}
                                 onChange={handleChange}
-                                options={[
-                                    {
-                                        value: 'bug',
-                                        label: 'Bug',
-                                    },
-                                    {
-                                        value: 'newtask',
-                                        label: 'New Task',
-                                    },
-
-                                ]}
+                                options={taskType?.map((type:TypeTask)=>{
+                                    return {
+                                        value: type.id,
+                                        label:type.taskType
+                                    }
+                                })}
                             />
                         </div>
                     </div>
