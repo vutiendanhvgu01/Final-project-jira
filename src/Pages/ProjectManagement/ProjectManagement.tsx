@@ -24,79 +24,7 @@ interface DataType {
     deleted: boolean
   }
   
-  const data: DataType[] = [
-    {
-        "members": [],
-        "creator": {
-          "id": 2417,
-          "name": "Admin Cyberlearn - 01"
-        },
-        "id": 10441,
-        "projectName": "vu tien danh",
-        "description": "<p>123</p>",
-        "categoryId": 1,
-        "categoryName": "Dự án web",
-        "alias": "vu-tien-danh",
-        "deleted": false
-      },
-      {
-        "members": [],
-        "creator": {
-          "id": 3943,
-          "name": "danh"
-        },
-        "id": 10445,
-        "projectName": "Danh123",
-        "description": "<p>123</p>",
-        "categoryId": 1,
-        "categoryName": "Dự án web",
-        "alias": "danh123",
-        "deleted": false
-      },
-      {
-        "members": [],
-        "creator": {
-          "id": 3943,
-          "name": "danh"
-        },
-        "id": 10446,
-        "projectName": "Danh123456",
-        "description": "<p>123</p>",
-        "categoryId": 3,
-        "categoryName": "Dự án di động",
-        "alias": "danh123456",
-        "deleted": false
-      },
-      {
-        "members": [],
-        "creator": {
-          "id": 3943,
-          "name": "danh"
-        },
-        "id": 10447,
-        "projectName": "vutiendanh123",
-        "description": "<p>123</p>",
-        "categoryId": 2,
-        "categoryName": "Dự án phần mềm",
-        "alias": "vutiendanh123",
-        "deleted": false
-      },
-      {
-        "members": [],
-        "creator": {
-          "id": 3943,
-          "name": "danh"
-        },
-        "id": 10448,
-        "projectName": "danhdanh",
-        "description": "123",
-        "categoryId": 2,
-        "categoryName": "Dự án phần mềm",
-        "alias": "danhdanh",
-        "deleted": false
-      }
-      
-  ];
+  
 
  
 const ProjectManagement = (props: Props) => {
@@ -141,14 +69,23 @@ const ProjectManagement = (props: Props) => {
           { text: 'Joe', value: 'Joe' },
           { text: 'Jim', value: 'Jim' },
         ],
-      
+        sorter:(item2, item1)=>{
+            return item2.id - item1.id
+        }
        
       },
       {
         title: 'projectName',
         dataIndex: 'projectName',
         key: 'projectName',
-       
+        sorter:(item2, item1)=>{
+            let projectName1 = item1.projectName.trim().toLowerCase()
+            let projectName2 = item2.projectName.trim().toLowerCase()
+            if(projectName2 <projectName1){
+                return -1;
+            }
+            return 1
+        }
       },
       {
         title: 'description',
@@ -164,7 +101,14 @@ const ProjectManagement = (props: Props) => {
         title: 'category',
         dataIndex: 'categoryName',
         key: 'categoryName',
-       
+        sorter:(item2, item1)=>{
+            let categoryName1 = item1.categoryName.trim().toLowerCase()
+            let categoryName2 = item2.categoryName.trim().toLowerCase()
+            if(categoryName2 <categoryName1){
+                return -1;
+            }
+            return 1
+        }
       },
       {
         title: 'creator',
@@ -172,7 +116,15 @@ const ProjectManagement = (props: Props) => {
         key: 'creator',
        render:(text,record,index)=>{
         return <Tag color="green">{record.creator?.name}</Tag>
-       }
+       },
+       sorter:(item2, item1)=>{
+        let creator1 = item1.creator?.name.trim().toLowerCase()
+        let creator2 = item2.creator?.name.trim().toLowerCase()
+        if(creator2 < creator1){
+            return -1;
+        }
+        return 1
+    }
       },
       {
         title: 'Action',
