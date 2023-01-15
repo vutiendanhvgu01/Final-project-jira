@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import type { TableProps } from 'antd';
+import { TableProps, Tag } from 'antd';
 import { Button, Space, Table } from 'antd';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
 import {CheckCircleOutlined, DeleteOutlined, EditOutlined} from '@ant-design/icons'
+import { DispatchType, RootState } from '../../redux/configStore';
+import { getProjectDetailAPI } from '../../redux/reducers/ProjectReducer';
+
 type Props = {}
 interface DataType {
     members: [],
@@ -95,9 +100,16 @@ interface DataType {
 
  
 const ProjectManagement = (props: Props) => {
+    const {projectDetail} = useSelector((state:RootState)=>state.ProjectReducer)
     const [filteredInfo, setFilteredInfo] = useState<Record<string, FilterValue | null>>({});
     const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({});
-  
+    const dispatch:DispatchType = useDispatch()
+    console.log(projectDetail)
+    useEffect(()=>{
+        
+        const action = getProjectDetailAPI()
+        dispatch(action)
+    },[])
     const handleChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter) => {
       console.log('Various parameters', pagination, filters, sorter);
       setFilteredInfo(filters);
@@ -144,9 +156,22 @@ const ProjectManagement = (props: Props) => {
         key: 'description',
         render: (text,record,index)=>{
             let tsxContent = ((text.replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "")
-            return <div>
-                {tsxContent}
-            </div>
+            return <div>{tsxContent}</div>
+            
+       }
+      },
+      {
+        title: 'category',
+        dataIndex: 'categoryName',
+        key: 'categoryName',
+       
+      },
+      {
+        title: 'creator',
+        
+        key: 'creator',
+       render:(text,record,index)=>{
+        return <Tag color="green">{record.creator?.name}</Tag>
        }
       },
       {
@@ -169,7 +194,7 @@ const ProjectManagement = (props: Props) => {
         <Button onClick={clearFilters}>Clear filters</Button>
         <Button onClick={clearAll}>Clear filters and sorters</Button>
       </Space>
-      <Table columns={columns} rowKey={"id"} dataSource={data} onChange={handleChange} />
+      <Table columns={columns} rowKey={"id"} dataSource={projectDetail} onChange={handleChange} />
     </>
   )
 }

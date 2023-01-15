@@ -36,21 +36,38 @@ export interface Project{
     description:string,
     categoryId:number
 }
+export interface ProjectDetail{
+    members: [],
+    creator: {
+      id: number,
+      name: string
+    },
+    id: number,
+    projectName: string,
+    description: string,
+    categoryId: number,
+    categoryName: string,
+    alias: string,
+    deleted: boolean
+}
 export interface ProjectState{
     categoryProject: category[],
     createProject: Project,
     allProjects: projectAll[],
     statusTask: Status[],
     taskType: TypeTask[],
-    Priority: PriorityTask[]
+    Priority: PriorityTask[],
+    projectDetail: ProjectDetail[]
 }
+
 const initialState = {
     categoryProject: [],
     createProject:null,
     allProjects: [],
     statusTask: [],
     taskType: [],
-    Priority: []
+    Priority: [],
+    projectDetail:[]
 }
 
 const ProjectReducer = createSlice({
@@ -60,9 +77,7 @@ const ProjectReducer = createSlice({
     projectCategoryAction:(state:ProjectState, action: PayloadAction<category[]>)=>{
         state.categoryProject = action.payload
     },
-    // createProjectaction:(state:ProjectState, action:PayloadAction<Project>)=>{
-    //     state.createProject = action.payload
-    // }
+   
     getAllProjects: (state:ProjectState,action:PayloadAction<projectAll[]>) => {
    state.allProjects = action.payload
     },
@@ -74,11 +89,14 @@ const ProjectReducer = createSlice({
     },
     getTaskPriorityAction: (state:ProjectState, action:PayloadAction<PriorityTask[]>) => {
         state.Priority = action.payload
+    },
+    getProjectDetailAction: (state:ProjectState, action: PayloadAction<ProjectDetail[]>)=>{
+        state.projectDetail = action.payload
     }
   }
 });
 
-export const {projectCategoryAction,getAllProjects,getStatusTaskAction,getTaskTypeAction,getTaskPriorityAction} = ProjectReducer.actions
+export const {projectCategoryAction,getAllProjects,getStatusTaskAction,getTaskTypeAction,getTaskPriorityAction,getProjectDetailAction} = ProjectReducer.actions
 
 export default ProjectReducer.reducer
 
@@ -94,6 +112,21 @@ export const getProjectCategoryApi = ()=>{
         })
         const content:category[] = result.data.content
         const action:PayloadAction<category[]> = projectCategoryAction(content)
+        dispatch(action)
+    }
+}
+export const getProjectDetailAPI = ()=>{
+    return async(dispatch:DispatchType)=>{
+        const result = await axios({
+            url:`https://jiranew.cybersoft.edu.vn/api/Project/getAllProject`,
+            method:'get',
+            headers:{
+                TokenCybersoft: TOKEN_CYBERSOFT,
+            }
+        })
+        console.log(result.data.content)
+        const content:ProjectDetail[] = result.data.content
+        const action:PayloadAction<ProjectDetail[]> = getProjectDetailAction(content)
         dispatch(action)
     }
 }
@@ -122,7 +155,7 @@ export const getAllProject = () => {
                     TokenCybersoft: TOKEN_CYBERSOFT
                 }
             })
-            console.log(result.data.content);
+            console.log("getallproject",result.data.content);
             const action = getAllProjects(result.data.content)
             dispatch(action)
             const actionGetStatusTask = getTaskStatus()
