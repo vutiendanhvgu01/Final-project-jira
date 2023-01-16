@@ -83,7 +83,7 @@ const initialState = {
     projectName: "string",
 
     description: "string",
-    categoryId: "2",
+    categoryId: "1",
   },
 };
 
@@ -265,5 +265,6 @@ export const updateProjectAPI = (projectUpdate: ProjectEdit) => {
     const action = getProjectDetailAPI();
 
     dispatch(action);
+    alert("Update success");
   };
 };

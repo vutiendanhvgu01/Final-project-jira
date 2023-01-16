@@ -37,16 +37,16 @@ const EditProjectForm = (props: Props) => {
     }
   };
   const form = useFormik({
-    // enableReinitialize: true,
+    enableReinitialize: true,
     initialValues: {
       id: projectEdit.id,
       projectName: projectEdit.projectName,
       description: editorRef.current?.getContent(),
-      categoryId: categoryProject[0]?.id,
+      categoryId: projectEdit.categoryId,
     },
     validationSchema: yup.object().shape({}),
     onSubmit: (values) => {
-      console.log(values);
+      console.log("edit", values);
       dispatch(updateProjectAPI(values));
     },
   });
@@ -62,6 +62,7 @@ const EditProjectForm = (props: Props) => {
               name="id"
               onChange={form.handleChange}
               onBlur={form.handleBlur}
+              disabled={true}
             />
           </div>
         </div>
@@ -83,9 +84,9 @@ const EditProjectForm = (props: Props) => {
             <select
               name="categoryId"
               className="form-control"
-              value={form.values?.categoryId}
+              value={form.values.categoryId}
             >
-              {categoryProject.map((item, index) => {
+              {categoryProject?.map((item, index) => {
                 return (
                   <option value={item.id} key={index}>
                     {item.projectCategoryName}
@@ -99,7 +100,7 @@ const EditProjectForm = (props: Props) => {
           <div className="form-group">
             <p className="font-weight-bold">Description</p>
             <Editor
-              value={form.values?.description}
+              initialValue={form.values?.description}
               onInit={(evt, editor) => (editorRef.current = editor)}
               init={{
                 height: 300,
