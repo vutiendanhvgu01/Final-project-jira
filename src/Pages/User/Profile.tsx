@@ -63,7 +63,7 @@ const Profile = (props: Props) => {
 
                             <Button type="primary" htmlType='button' size='large'  onClick={showDrawer}>Update</Button>
                         </div>
-                        <UpdateProfile />
+                        {/* <UpdateProfile /> */}
                     </div>
                 </div>
             </div>
