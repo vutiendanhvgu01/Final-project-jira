@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { PriorityTask, Status, TypeTask } from '../../Pages/Task/TypeTask';
-import { TOKEN_CYBERSOFT,ACCESS_TOKEN,getStore } from '../../util/config';
+import { TOKEN_CYBERSOFT,ACCESS_TOKEN,getStore, http } from '../../util/config';
 import { DispatchType, RootState } from '../configStore';
 
 
@@ -190,13 +190,7 @@ export const getAllProject = () => {
 
  export const getTaskType = () => {
     return async (dispatch:DispatchType) => {
-        const result = await axios({
-            url:'https://jiranew.cybersoft.edu.vn/api/TaskType/getAll',
-            method:'get',
-            headers:{
-                TokenCybersoft: TOKEN_CYBERSOFT,
-            }
-        })
+        const result = await http.get('/api/TaskType/getAll')
         console.log(result.data.content)
         const action = getTaskTypeAction(result.data.content)
         dispatch(action)
@@ -207,13 +201,7 @@ export const getAllProject = () => {
  
  export const getTaskPriority = () => {
     return async (dispatch:DispatchType) => {
-        const result = await axios({
-            url:'https://jiranew.cybersoft.edu.vn/api/Priority/getAll',
-            method:'get',
-            headers:{
-                TokenCybersoft: TOKEN_CYBERSOFT,
-            }
-        })
+        const result = await http.get('/api/Priority/getAll')
         console.log(result.data.content)
         const action = getTaskPriorityAction(result.data.content)
         dispatch(action)

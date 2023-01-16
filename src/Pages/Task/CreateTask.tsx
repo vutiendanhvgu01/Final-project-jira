@@ -10,8 +10,8 @@ import { projectAll } from '../../redux/reducers/ProjectReducer';
 import { PriorityTask, Status, TypeTask } from './TypeTask';
 import '../../Assets/scss/pages/Task/_createTask.scss'
 import { MessageOutlined, CaretDownOutlined } from '@ant-design/icons';
-
 import { Button } from 'antd';
+
 
 const optionsAssigner: SelectProps['options'] = [];
 type Props = {}
@@ -55,16 +55,22 @@ const CreateTask: React.FC = (props: Props) => {
             priorityId: '',
             taskType: '',
             taskName: '',
+            description: '',
         },
         validationSchema: yup.object().shape({
 
         }),
         onSubmit: (values) => {
-
+            console.log(editorRef.current.getContent())
+            console.log(values)
 
         },
     }
     )
+
+    const handleEdit = () => {
+    
+    }
 
     return (
         <>
@@ -175,6 +181,9 @@ const CreateTask: React.FC = (props: Props) => {
                         />
                     </div>
                     <Button  type="primary" htmlType='submit' size='large'>Submit</Button>
+                    <Button  danger={true} htmlType='button' size='large' onClick={()=> {
+                        handleEdit()
+                    }}>Edit</Button>
 
 
 
