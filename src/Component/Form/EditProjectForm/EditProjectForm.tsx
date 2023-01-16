@@ -37,10 +37,10 @@ const EditProjectForm = (props: Props) => {
     }
   };
   const form = useFormik({
-    enableReinitialize: true,
+    // enableReinitialize: true,
     initialValues: {
-      id: projectEdit?.id,
-      projectName: projectEdit?.projectName,
+      id: projectEdit.id,
+      projectName: projectEdit.projectName,
       description: editorRef.current?.getContent(),
       categoryId: categoryProject[0]?.id,
     },
