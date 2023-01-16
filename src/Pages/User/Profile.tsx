@@ -1,14 +1,20 @@
 import React from 'react'
 import { Button, Input } from 'antd';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/configStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { DispatchType, RootState } from '../../redux/configStore';
 import UpdateProfile from './UpdateProfile';
+import { openDrawer } from '../../redux/reducers/DrawerCyberBug';
 
 
 
 type Props = {}
 
 const Profile = (props: Props) => {
+    const {visible} = useSelector((state:RootState)=>state.DrawerCyberBug)
+    const dispatch:DispatchType = useDispatch()
+    const showDrawer = () => {
+      dispatch(openDrawer())
+    };
 
     const { userLogin } = useSelector((state: RootState) => {
         return state.UserReducer
@@ -55,7 +61,7 @@ const Profile = (props: Props) => {
                         <div className="group-button d-flex mt-3">
                             <Button danger={true} htmlType='button' size='large' style={{ marginRight: '15px' }}>Cancel</Button>
 
-                            <Button type="primary" htmlType='button' size='large'>Update</Button>
+                            <Button type="primary" htmlType='button' size='large'  onClick={showDrawer}>Update</Button>
                         </div>
                         <UpdateProfile />
                     </div>

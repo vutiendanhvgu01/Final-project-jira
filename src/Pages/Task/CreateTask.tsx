@@ -2,8 +2,8 @@ import { Input, Select } from 'antd'
 import React, { useRef } from 'react'
 import type { SelectProps } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/configStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { DispatchType, RootState } from '../../redux/configStore';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { projectAll } from '../../redux/reducers/ProjectReducer';
@@ -11,6 +11,7 @@ import { PriorityTask, Status, TypeTask } from './TypeTask';
 import '../../Assets/scss/pages/Task/_createTask.scss'
 import { MessageOutlined, CaretDownOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { openDrawer } from '../../redux/reducers/DrawerCyberBug';
 
 
 const optionsAssigner: SelectProps['options'] = [];
@@ -68,6 +69,7 @@ const CreateTask: React.FC = (props: Props) => {
     }
     )
 
+    
     const handleEdit = () => {
     
     }

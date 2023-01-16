@@ -26,10 +26,13 @@ const root = ReactDOM.createRoot(
 );
 export const history: any = createBrowserHistory();
 root.render(
-  <Provider store={store}>
+  <Provider store={store}> 
+
     <HistoryRouter history={history}>
+    <MODALCYBERBUG/>
       <Routes>
         <Route index element={<Login />}></Route>
+       
         <Route path="home" element={<HomeTemplate />}>
           <Route path="profile" element={<Profile />}></Route>
           <Route path="createProject" element={<CreateProject />}></Route>
@@ -37,7 +40,7 @@ root.render(
             path="projectManagement"
             element={<ProjectManagement />}
           ></Route>
-          <Route path="drawer" element={<MODALCYBERBUG />}></Route>
+          {/* <Route path="drawer" element={<MODALCYBERBUG />}></Route> */}
           <Route path="editProject" element={<EditProjectForm />}></Route>
           <Route path="createTask" element={<CreateTask />}></Route>
         </Route>

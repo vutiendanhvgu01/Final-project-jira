@@ -14,11 +14,11 @@ const DrawerCyberBug = createSlice({
   initialState,
   reducers: {
     openDrawer:(state= initialState, action:PayloadAction<popUp>)=>{
-        state.visible = !state.visible
+        state.visible = true
         
     },
     CloseDrawer:(state= initialState, action:PayloadAction<popUp>)=>{
-        state.visible = !state.visible
+        state.visible = false
         
     }
   }
