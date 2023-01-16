@@ -9,6 +9,7 @@ type Props = {};
 const Profile = (props: Props) => {
   const dispatch: DispatchType = useDispatch();
 
+<<<<<<< HEAD
   const { userLogin } = useSelector((state: RootState) => {
     return state.UserReducer;
   });
@@ -60,6 +61,58 @@ const Profile = (props: Props) => {
                 </p>
                 <Input placeholder="input with clear icon" allowClear />
               </div>
+=======
+    const { userLogin } = useSelector((state: RootState) => {
+        return state.UserReducer
+    })
+    return (
+
+        <>
+            <div className="container">
+                <div className="title-profile" style={{ textAlign: 'center' }}>
+                    <h1>Profile</h1>
+                </div>
+                <div className="profile-wrap row">
+                    <div className="col-6">
+                        <img src="https://ui-avatars.com/api/?name=Bao%20Toan" alt="..." />
+                    </div>
+                    <div className="col-6">
+                        <div className="profile-content">
+                            <div className="form-group">
+                                <p>Id <span className='required-icon'>*</span></p>
+                                <Input value={userLogin.id} disabled={true} />
+                            </div>
+                            <div className="form-group">
+                                <p>Email <span className='required-icon'>*</span></p>
+                                <Input defaultValue={userLogin.email} readOnly />
+                            </div>
+                            <div className="form-group">
+                                <p>Name <span className='required-icon'>*</span></p>
+                                <Input defaultValue={userLogin.name} />
+                            </div>
+                            <div className="form-group">
+                                <p>Phone number <span className='required-icon'>*</span></p>
+                                <Input defaultValue={userLogin.phoneNumber} />
+                            </div>
+                            <div className="form-group">
+                                <p>Password <span className='required-icon'>*</span></p>
+                                <Input placeholder="input with clear icon" allowClear />
+                            </div>
+                            <div className="form-group">
+                                <p>Password confirmation <span className='required-icon'>*</span></p>
+                                <Input placeholder="input with clear icon" allowClear />
+                            </div>
+
+                        </div>
+                        <div className="group-button d-flex mt-3">
+                            <Button danger={true} htmlType='button' size='large' style={{ marginRight: '15px' }}>Cancel</Button>
+
+                            <Button type="primary" htmlType='button' size='large'  onClick={showDrawer}>Update</Button>
+                        </div>
+                        {/* <UpdateProfile /> */}
+                    </div>
+                </div>
+>>>>>>> 7140dabc2a135a00243f6b5232b5c700e0ae9765
             </div>
             <div className="group-button d-flex mt-3">
               <Button
