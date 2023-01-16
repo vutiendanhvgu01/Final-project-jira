@@ -1,45 +1,105 @@
 import { Editor } from "@tinymce/tinymce-react";
-import React, { useRef } from "react";
+import { useFormik } from "formik";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DispatchType, RootState } from "../../../redux/configStore";
+import {
+  getProjectCategoryApi,
+  updateProjectAPI,
+} from "../../../redux/reducers/ProjectReducer";
+import * as yup from "yup";
 
 type Props = {};
 
 const EditProjectForm = (props: Props) => {
+  const { categoryProject, projectEdit } = useSelector(
+    (state: RootState) => state.ProjectReducer
+  );
+  const dispatch: DispatchType = useDispatch();
+  const submitForm = (e: any) => {
+    e.preventDefault();
+    alert("submit edit");
+  };
+  useEffect(() => {
+    const action = getProjectCategoryApi();
+    dispatch(action);
+  }, []);
+  useEffect(() => {
+    dispatch({
+      type: "SET_SUBMIT_EDIT_PROJECT",
+      submitFunction: form.handleSubmit,
+    });
+  }, []);
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
-      let valueDes: string = editorRef.current
-        .getContent()
-        .replace(/(&nbsp;)*/g, "")
-        .replace(/(<p>)*/g, "")
-        .replace(/<(\/)?p[^>]*>/g, "");
     }
   };
+  const form = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      id: projectEdit?.id,
+      projectName: projectEdit?.projectName,
+      description: editorRef.current?.getContent(),
+      categoryId: categoryProject[0]?.id,
+    },
+    validationSchema: yup.object().shape({}),
+    onSubmit: (values) => {
+      console.log(values);
+      dispatch(updateProjectAPI(values));
+    },
+  });
   return (
-    <form className="container">
+    <form className="container" onSubmit={form.handleSubmit}>
       <div className="row">
         <div className="col-4">
           <div className="form-group">
             <p className="font-weight-bold">Project id</p>
-            <input className="form-control" name="id" />
+            <input
+              value={form.values.id}
+              className="form-control"
+              name="id"
+              onChange={form.handleChange}
+              onBlur={form.handleBlur}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="form-group">
             <p className="font-weight-bold">Project Name</p>
-            <input className="form-control" name="projectName" />
+            <input
+              value={form.values.projectName}
+              className="form-control"
+              name="projectName"
+              onChange={form.handleChange}
+              onBlur={form.handleBlur}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="form-group">
             <p className="font-weight-bold">Project category</p>
-            <input className="form-control" name="projectName" />
+            <select
+              name="categoryId"
+              className="form-control"
+              value={form.values?.categoryId}
+            >
+              {categoryProject.map((item, index) => {
+                return (
+                  <option value={item.id} key={index}>
+                    {item.projectCategoryName}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
         <div className="col-12">
           <div className="form-group">
             <p className="font-weight-bold">Description</p>
             <Editor
+              value={form.values?.description}
               onInit={(evt, editor) => (editorRef.current = editor)}
               init={{
                 height: 300,

@@ -1,29 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-export interface popUp{
-    visibleState:boolean
-}
-export interface DrawerState{
-    visible: popUp
-}
+import React from "react";
 const initialState = {
-    visible:false
-}
+  visible: false,
+  ComponentContentDrawer: <p>Default content</p>,
+  callBackSubmit: (propsValue: any) => {
+    alert("Demo Click!");
+  },
+};
 
-const DrawerCyberBug = createSlice({
-  name: "drawerReducer",
-  initialState,
-  reducers: {
-    openDrawer:(state= initialState, action:PayloadAction<popUp>)=>{
-        state.visible = true
-        
-    },
-    CloseDrawer:(state= initialState, action:PayloadAction<popUp>)=>{
-        state.visible = false
-        
-    }
+export const drawerReducer = (state = initialState, action: any) => {
+  switch (action.type) {
+    case "OPEN_DRAWER":
+      return { ...state, visible: true };
+    case "CLOSE_DRAWER":
+      return { ...state, visible: false };
+    case "OPEN_FORM_EDIT_PROJECT":
+      return {
+        ...state,
+        visible: true,
+        ComponentContentDrawer: action.Component,
+      };
+    case "SET_SUBMIT_EDIT_PROJECT":
+      return { ...state, callBackSubmit: action.submitFunction };
+    default:
+      return state;
   }
-});
-
-export const {openDrawer,CloseDrawer} = DrawerCyberBug.actions
-
-export default DrawerCyberBug.reducer
+};

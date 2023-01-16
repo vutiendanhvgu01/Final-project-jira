@@ -14,8 +14,12 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { getProjectDetailAPI } from "../../redux/reducers/ProjectReducer";
-import { openDrawer } from "../../redux/reducers/DrawerCyberBug";
+import {
+  getProjectDetailAPI,
+  getProjectEditAction,
+} from "../../redux/reducers/ProjectReducer";
+
+import EditProjectForm from "../../Component/Form/EditProjectForm/EditProjectForm";
 
 type Props = {};
 interface DataType {
@@ -37,7 +41,7 @@ const ProjectManagement = (props: Props) => {
   const { projectDetail } = useSelector(
     (state: RootState) => state.ProjectReducer
   );
-  const {visible} = useSelector((state:RootState)=>state.DrawerCyberBug)
+
   const [filteredInfo, setFilteredInfo] = useState<
     Record<string, FilterValue | null>
   >({});
@@ -149,8 +153,12 @@ const ProjectManagement = (props: Props) => {
           <button
             className="btn btn-primary mr-2"
             onClick={() => {
-              dispatch(openDrawer());
-              console.log(visible)
+              dispatch({
+                type: "OPEN_FORM_EDIT_PROJECT",
+                Component: <EditProjectForm />,
+              });
+              console.log(record);
+              dispatch(getProjectEditAction(record));
             }}
           >
             <EditOutlined className="bg-primary" style={{ fontSize: 17 }} />
